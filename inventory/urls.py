@@ -19,6 +19,6 @@ urlpatterns = [
     url(r'^vendor/$',views.vendor_view,name='vendor_view'),
     url(r'^addvendor/$',views.add_vendor,name='add_vendor'),
     url(r'^additem/$',views.add_item,name='add_item'),
-    url(r'^itemadded/$',views.item_is_added,name='item_is_added'),
+    url(r'^additem/itemadded/$',views.item_is_added,name='item_is_added'),
 
 ]

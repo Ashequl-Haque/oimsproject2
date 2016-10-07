@@ -30,10 +30,22 @@
     	    Item name:
  			<input type="text" name="itemname" id= "itemname">
   			<br>
-  			Item Quantity:
-  			<input type="text" name="itemqty" id="itemqty">
+  			Quantity inside:
+  			<input type="text" name="qtyinside" id="qtyinside">
             <br>
-            Vendor Name:
+            Quantity outside:
+  			<input type="text" name="qtyoutside" id="qtyoutside">
+  			<br>
+  			Minimum quantity:
+  			<input type="text" name="qtymin" id="qtymin">
+  			<br>
+  			Unit price:
+  			<input type="text" name="unitprice" id="unitprice">
+  			<br>
+  			Description:
+  			<input type="text" name="desc" id="desc">
+  			<br>
+  			Vendor Name:
   			<input type="text" name="vendorname" id="vendorname">
 
 
@@ -58,15 +70,20 @@
                   document.getElementById("addeditems").innerHTML = "Okay!" 
               }
           };
-          xhttp.open("POST", "item_is_added/", true);
+          xhttp.open("POST", "itemadded/", true);
           var csrftoken = getCookie('csrftoken');
 
           xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           xhttp.setRequestHeader("X-CSRFToken", csrftoken);
           
           query = "&itemname=" +document.getElementById("itemname").value;
-          query += "&itemqty=" + document.getElementById("itemqty").value;
-          query += "&vendorname=" + document.getElementById("vendorname").value;
+          query += "&qtyinside=" +document.getElementById("qtyinside").value;
+          query += "&qtyoutside=" +document.getElementById("qtyoutside").value;
+          query += "&qtymin=" +document.getElementById("qtymin").value;
+          query += "&unitprice=" +document.getElementById("unitprice").value;
+          query += "&desc=" +document.getElementById("desc").value;
+          query += "&vendorname=" +document.getElementById("vendorname").value;
+         
           
 
 
@@ -74,6 +91,23 @@
 
           xhttp.send(query);
       }	
+
+
+            function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
 </script>>
 </body>
 </html>

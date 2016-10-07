@@ -240,11 +240,19 @@ def add_item(request):
 def item_is_added(request):
 	if request.method=='POST':
 		nitem_name=request.POST['itemname']
-		nitem_quantity=request.POST['itemqty']
-		nvendor_name=request.POST['vendorname']
+		qty_inside=request.POST['qtyinside']
+		qty_outside=request.POST['qtyoutside']
+		qty_min=request.POST['qtymin']
+		desc=request.POST['desc']
+		unit_price=request.POST['unitprice']
+		vendor_name= request.POST['vendorname']
 
 
-		p=InventoryTable(item_name=nitem_name, quantity_inside=nitem_quantity,vendor=nvendor_name)
+		p=InventoryTable(item_name=nitem_name, quantity_inside=qty_inside,quantity_outside=qty_outside,minimum_quantity=qty_min,unit_price=unit_price,description=desc,vendor=vendor_name)
 		p.save()
+
+		quantity_inside=InventoryTable.objects.get(item_name=nitem_name).quantity_inside
+
+		print quantity_inside
 
 		return HttpResponse("Okay")	
