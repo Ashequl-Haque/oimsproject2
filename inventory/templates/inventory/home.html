@@ -1,0 +1,203 @@
+{% extends "inventory/base.html" %}
+{% block table %}
+    <table id="inventorytable">
+	    <thead>
+	      <tr>
+	        <th style="width:15%">Item Name
+	        </th>
+	        <th style="width:10%">Inside
+	        </th>
+	        <th style="width:10%">Outside
+	        </th>
+	        <th style="width:15%">Unit Price
+	        </th>
+	        <th>Vendor
+	        </th>
+	      </tr>
+	    </thead>
+        {% for items in inv %}
+        <tr>
+            <td >{{items.item_name}}</td>
+            <td>{{items.quantity_inside}}</td>
+            <td>{{items.quantity_outside}}</td>
+            <td>{{items.unit_price}}</td>
+            <td>{{items.vendor}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+	<script type="text/javascript">
+	    $(document).ready(function(){
+	      $('#inventorytable').DataTable({
+	        select: true}
+	                                    );
+	    }
+	                     );
+	</script>
+{% endblock table %}
+
+
+{% block newrequests %}
+
+<button type="button" class="btn btn-info btn-small" data-toggle="modal" data-target="#myModal">New Request</button>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">New Request</h4>
+        </div>
+        <div class="modal-body">
+          Item name:
+    		<select name="requested_item_name_dropdown" id="requested_item_name_dropdown" onchange="showQuantity(this.value)">
+      				<option value="">Select..</option>
+      				{%for item in item_names%}
+      				<option value="{{item.item_name}}">{{item.item_name}}</option>
+      				{% endfor %}
+    		</select>
+
+    		Requested quantity:
+    		<select id="item_quantity_dropdown" name="requested_quantity"></select>
+    		Requestee:
+    		<datalist id="requestee_names">
+    		</datalist>
+    		<input type="text" list="requestee_names" name="requestee" id="requestee"/>
+    		<textarea placeholder="Describe yourself here..." rows="4" cols="50" name="description" id="description">
+    		</textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="placerequest()" data-dismiss="modal">Place Request</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+{% endblock newrequests %}
+
+
+{% block pendingrequests %}
+    <div id="request_panel">
+    {% if group|stringformat:"s" == "head" %}
+    {%for p in pending%}
+    {% if forloop.first %}
+    	<h2>Pending Requests</h2>
+    {% endif %}
+    <div id="req_panel{{p.id_no}}">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-sm-4">Request of {{p.item_name}}
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">Request for {{p.requestee}}
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-4">Requested Quantity:{{p.requested_quantity}}
+            </div>
+            <div class="col-sm-4">Available:{{p.quantity_inside}}
+            </div>
+            <div class="col-sm-4">
+              Approve:
+              <select id="approved_item_qty_dropdown{{p.id_no}}">
+                <option value="{{p.requested_quantity}}">{{p.requested_quantity}}
+                </option>
+                <option value="">more..
+                </option>
+              </select>
+              <script type="text/javascript">
+                //removed id here
+                generateOptions("approved_item_qty_dropdown{{p.id_no}}",{{p.requested_quantity}});
+              </script>
+            </div>
+          </div>
+          <p>Description:{{p.description}}            
+          </p>
+          <button type="button" class="btn btn-default" onclick="processrequest('{{p.id_no}}','approve',
+                                                                 document.getElementById('approved_item_qty_dropdown{{p.id_no}}').value)">Approve
+          </button>
+          <button type="button" class="btn btn-default" onclick="processrequest('{{p.id_no}}','reject','0')" data-dismiss="modal">Reject
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    
+    {% if group|stringformat:"s" == "manager" %}
+    {%for p in pending%}
+    <div id="req_panel{{p.id_no}}">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-sm-4">Request of {{p.item_name}}
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">Request for {{p.requestee}}
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-4">Requested Quantity:{{p.requested_quantity}}
+            </div>
+            <div class="col-sm-4">Available:{{p.quantity_inside}}
+            </div>
+            
+          </div>
+          <p>Description:{{p.description}}            
+          </p>
+          
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    
+    {% endif %}
+    
+  	</div>
+                  
+{% endblock pendingrequests %}
+
+
+{% block processedrequest %}
+<h2>Processed Requests:</h2>
+{% for p in processed %}
+<div id="processed_req_panel{{p.id_no}}">
+	<div class="panel panel-default" width="20%">
+
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-4">Requested of:{{p.item_name}}
+				</div>
+				<div class="col-sm-4">Request for:{{p.requestee}}
+				</div>
+				<div class="col-sm-4">Status:{{p.action}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">is {{p.action}}ed on {{p.date_of_process}}
+				</div>
+				<div class="col-sm-6" align="right">
+					{% if group|stringformat:"s" == "manager" %}
+					<button type="button" class="btn btn-default" 
+					onclick="acknowledge('processed_req_panel{{p.id_no}}')">Okay
+					</button>
+					{% endif %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endfor %}
+
+    
+{% endblock processedrequest %}

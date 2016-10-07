@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+        <title>OIMS</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  
+        <script type="text/javascript">
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                            }
+                        }
+                    }
+                return cookieValue;
+            }
+
+            function login(){
+                email=document.getElementById("email").value;
+                pwd=document.getElementById("pwd").value
+                isadmin(email, pwd);
+                 
+            }
+
+            function isadmin(email,pwd){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                  //document.getElementById("demo").innerHTML = this.responseText;
+                    if(this.responseText==1){
+                        document.getElementById("login_form").innerHTML=
+                    `<form method="post" action="/login/">
+                    {% csrf_token %}      
+                    email: <input type="text" id="email" name="email" value="`+email+`" size="50" />
+                    <br />
+                    Password: <input type="password" id="pwd" name="password" value="`+pwd+`" size="50" />
+                    <br />
+                    Password2: <input type="password" id="pwd2" name="password2" value="" size="50" />
+                    <br/>
+                    <input type="submit" value="submit">
+                    </form>`;
+                            }
+                    else{
+                        var form = document.createElement("form");
+                        form.setAttribute("method", "post");
+                        form.setAttribute("action", "/login/");
+
+                        var data = {csrfmiddlewaretoken:getCookie('csrftoken'), email:document.getElementById("email").value, password:document.getElementById("pwd").value, password2:"xxx"};
+                        
+                        for(var key in data) {
+                            if(data.hasOwnProperty(key)) {
+                                var hiddenField = document.createElement("input");
+                                hiddenField.setAttribute("type", "hidden");
+                                hiddenField.setAttribute("name", key);
+                                hiddenField.setAttribute("value", data[key]);
+
+                                form.appendChild(hiddenField);
+                            }
+                        }
+                        
+
+                        form.appendChild(hiddenField);
+                        document.body.appendChild(form);
+                        form.submit();
+                        document.body.removeChild(form);
+                    }
+
+                    
+                    }
+
+                    
+                    
+                };
+                xhttp.open("POST", "isadmin/", true);
+                var csrftoken = getCookie('csrftoken');
+
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                query = "email="+email;
+                xhttp.send(query);
+
+
+
+                
+
+                
+            }
+        
+            
+        </script>
+    </head>
+
+    <body>
+        <h1>Login to OIMS</h1>
+        
+        
+        <div id="login_form">
+            {% csrf_token %}   
+            email: <input type="text" id="email" name="email" value="" size="50" />
+            <br />
+            Password: <input type="password" id="pwd" name="password" value="" size="50" />
+            <br />
+            <a id="error"></a>
+
+            <button onclick="login()">Submit</button>
+
+            <!--input type="submit" value="submit"-->
+        </div>
+
+    </body>
+</html>
