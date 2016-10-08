@@ -226,12 +226,34 @@ def vendor_view(request):
 
 @login_required
 def add_vendor(request):
+	return render(request ,'inventory/addvendor.html',{})	
+
+
+def vendor_is_added(request):
 	if request.method=='POST':
-		vendor_name=request.POST['email']
-		desc=request.POST['comment']
-		q=Vendor(name=vendor_name,description=desc)
-		q.save()	
-		return redirect("http://127.0.0.1:8000/vendor/")
+		nvendor_name=request.POST['vendorname']
+		try:
+			naddress=request.POST['address']
+		except KeyError:
+			naddress='Guest'
+		ncontact=request.POST['contact']
+		nemail=request.POST['email']
+		ndesc=request.POST['desc']
+		ndateadded=request.POST['dateadded']
+		ndatemodified= request.POST['datemodified']
+		naddedby= request.POST['addedby']
+		nmodifiedby= request.POST['modifiedby']
+		nactive= request.POST['active']
+		nvendorid= request.POST['vendorid']
+		
+
+
+		p=Vendor(name=nvendor_name,address=naddress,contact=ncontact,email=nemail,description=ndesc,date_added=ndateadded,date_modified=ndatemodified,added_by=naddedby,modified_by=nmodifiedby,is_active=nactive,vendor_id=nvendorid)
+		p.save()
+
+
+
+		return HttpResponse("Okay")			
 
 
 def add_item(request):

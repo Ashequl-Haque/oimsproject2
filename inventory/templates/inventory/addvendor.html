@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Vendor</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+  <script src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap4.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+</head>
+<body>
+
+<table width="450px">
+
+<tr>
+ <td valign="top">
+  <label>Vendor Name</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="vendorname" id="vendorname" maxlength="50" size="30">
+ </td>
+</tr>
+ 
+<tr>
+ <td valign="top"">
+  <label>Address</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="address" id="address" maxlength="50" size="30">
+ </td>
+</tr>
+
+<tr>
+ <td valign="top"">
+  <label>Contact</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="contact" id="contact" maxlength="50" size="30">
+ </td>
+</tr>
+
+
+ <tr>
+ <td valign="top"">
+  <label>Email</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="email" id="email" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Description</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="desc" id="desc" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Date Added</label>
+ </td>
+ <td valign="top">
+  <input  type="date" name="dateadded" id="dateadded">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Date Modified</label>
+ </td>
+ <td valign="top">
+  <input  type="date" name="datemodified" id="datemodified">
+ </td>
+</tr>
+
+
+ <tr>
+ <td valign="top"">
+  <label>Added By</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="addedby" id="addedby" maxlength="50" size="30">
+ </td>
+</tr>
+
+
+
+ 
+ <tr>
+ <td valign="top"">
+  <label>Modified By</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="modifiedby" id="modifiedby" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Active State</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="active" id="active" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Vendor Id</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="vendorid" id="vendorid" maxlength="50" size="30">
+ </td>
+</tr>
+
+
+</table>
+
+<div>
+     <button type="button" onclick="additem()">Add Now</button>
+</div>
+
+    <div id="addedvendors"></div>
+
+<script type="text/javascript">
+      function additem() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  //document.getElementById("demo").innerHTML = this.responseText;
+                  document.getElementById("addedvendors").innerHTML = "Okay!" 
+              }
+          };
+          xhttp.open("POST", "vendoradded/", true);
+          var csrftoken = getCookie('csrftoken');
+
+          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+          
+          query = "&vendorname=" +document.getElementById("vendorname").value;
+          query += "&addess=" +document.getElementById("address").value;
+          query += "&contact=" +document.getElementById("contact").value;
+          query += "&email=" +document.getElementById("email").value;
+          query += "&desc=" +document.getElementById("desc").value;
+          query += "&dateadded=" +document.getElementById("dateadded").value;
+          query += "&datemodified=" +document.getElementById("datemodified").value;
+          query += "&addedby=" +document.getElementById("addedby").value;
+          query += "&modifiedby=" +document.getElementById("modifiedby").value;
+          query += "&active=" +document.getElementById("active").value;
+          query += "&vendorid=" +document.getElementById("vendorid").value;
+         
+          
+
+
+
+
+          xhttp.send(query);
+      } 
+
+
+            function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+</script>
+
+</body>
+</html>
+
