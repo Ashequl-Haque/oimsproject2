@@ -235,7 +235,7 @@ def add_vendor(request):
 
 
 def add_item(request):
-	return render(request ,'inventory/additem.html',{})			
+	return render(request ,'inventory/newadditem.html',{})			
 
 def item_is_added(request):
 	if request.method=='POST':

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Items</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+  <script src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap4.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+</head>
+<body>
+
+<table width="450px">
+
+<tr>
+ <td valign="top">
+  <label>Item Name</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="itemname" id="itemname" maxlength="50" size="30">
+ </td>
+</tr>
+ 
+<tr>
+ <td valign="top"">
+  <label>Quantity Inside</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="qtyinside" id="qtyinside" maxlength="50" size="30">
+ </td>
+</tr>
+
+<tr>
+ <td valign="top"">
+  <label>Quantity Outside</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="qtyoutside" id="qtyoutside" maxlength="50" size="30">
+ </td>
+</tr>
+
+
+ <tr>
+ <td valign="top"">
+  <label>Minimum Quantity</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="qtymin" id="qtymin" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Unit Price</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="unitprice" id="unitprice" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Description</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="desc" id="desc" maxlength="50" size="30">
+ </td>
+</tr>
+ 
+ <tr>
+ <td valign="top"">
+  <label>Vendor Name</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="vendorname" id="vendorname" maxlength="50" size="30">
+ </td>
+</tr>
+
+</table>
+
+<div>
+     <button type="button" onclick="additem()">Add Now</button>
+</div>
+
+    <div id="addeditems"></div>
+
+<script type="text/javascript">
+      function additem() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  //document.getElementById("demo").innerHTML = this.responseText;
+                  document.getElementById("addeditems").innerHTML = "Okay!" 
+              }
+          };
+          xhttp.open("POST", "itemadded/", true);
+          var csrftoken = getCookie('csrftoken');
+
+          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+          
+          query = "&itemname=" +document.getElementById("itemname").value;
+          query += "&qtyinside=" +document.getElementById("qtyinside").value;
+          query += "&qtyoutside=" +document.getElementById("qtyoutside").value;
+          query += "&qtymin=" +document.getElementById("qtymin").value;
+          query += "&unitprice=" +document.getElementById("unitprice").value;
+          query += "&desc=" +document.getElementById("desc").value;
+          query += "&vendorname=" +document.getElementById("vendorname").value;
+         
+          
+
+
+
+
+          xhttp.send(query);
+      } 
+
+
+            function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+</script>
+
+</body>
+</html>

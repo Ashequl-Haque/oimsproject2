@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Items</title>
+</head>
+<body>
+<form name="htmlform" method="post" action="html_form_send.php">
+<table width="450px">
+
+<tr>
+ <td valign="top">
+  <label>Item Name</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="itemname" id="itemname" maxlength="50" size="30">
+ </td>
+</tr>
+ 
+<tr>
+ <td valign="top"">
+  <label>Quantity Inside</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="qtyinside" id="qtyinside" maxlength="50" size="30">
+ </td>
+</tr>
+
+<tr>
+ <td valign="top"">
+  <label>Quantity Outside</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="qtyoutside" id="qtyoutside" maxlength="50" size="30">
+ </td>
+</tr>
+
+
+ <tr>
+ <td valign="top"">
+  <label>Minimum Quantity</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="qtymin" id="qtymin" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Unit Price</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="unitprice" id="unitprice" maxlength="50" size="30">
+ </td>
+</tr>
+
+ <tr>
+ <td valign="top"">
+  <label>Description</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="desc" id="desc" maxlength="50" size="30">
+ </td>
+</tr>
+ 
+ <tr>
+ <td valign="top"">
+  <label>Vendor Name</label>
+ </td>
+ <td valign="top">
+  <input  type="text" name="vendorname" id="vendorname" maxlength="50" size="30">
+ </td>
+</tr>
+
+</table>
+
+<div>
+     <button type="button" class="btn btn-default" onclick="additem()" data-dismiss="modal">Add Now</button>
+</div>
+</form>
+
+</body>
+</html>
